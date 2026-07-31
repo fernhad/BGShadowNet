@@ -1,0 +1,8 @@
+  pretrained
+  dataset/dataset
+  __pycache__/
+  *.pyc
+  *.prm
+  wandb/
+  *.log
+  .ipynb_checkpoints/

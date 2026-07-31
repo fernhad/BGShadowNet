@@ -1,7 +1,7 @@
 # I am very grateful to the author of this code, which is used for reading datasets and other operations
 # https://github.com/IsHYuhi/BEDSR-Net_A_Deep_Shadow_Removal_Network_from_a_Single_Document_Image
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import argparse
 import datetime
 from libs.fix_weight_dict import fix_model_state_dict
