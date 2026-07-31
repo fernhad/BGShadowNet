@@ -29,6 +29,7 @@ from libs.device import get_device
 from libs.helper_BGShadowNet import evaluate, train
 from libs.logger import TrainLoggerBGShadowNet
 from libs.loss_fn import get_criterion
+from libs.losses import SobelLoss
 from libs.seed import set_seed
 logger = getLogger(__name__)
 
@@ -172,7 +173,7 @@ def main() -> None:
     warmup_epoch = 4
     iter_per_epoch = 4371 // config.batch_size
     warmup_scheduler = WarmUpLR(optimizerG, iter_per_epoch * warmup_epoch)
-    lambda_dict = {"lambda1": config.lambda1, "lambda2": config.lambda2}
+    lambda_dict = {"lambda1": config.lambda1, "lambda2": config.lambda2, "lambda3": getattr(config, "lambda3", 0.2)}
 
     # keep training and validation log
     begin_epoch = 0
@@ -184,6 +185,8 @@ def main() -> None:
 
     # criterion for loss
     criterion = get_criterion(config.loss_function_name, device)
+    sobel_criterion = SobelLoss().to(device)
+    criterion = list(criterion) + [sobel_criterion]
 
     # Weights and biases
     if args.use_wandb:
