@@ -110,9 +110,10 @@ def do_one_iteration(
     G_L_data = criterion[0](gt, shadow_removal_image)
     G_L_confuse = criterion[0](gt,confuse_result)
     G_L_VGG = perceptual_loss(gt, shadow_removal_image)
+    G_L_edge = criterion[2](shadow_removal_image, gt)
 
 
-    G_loss = lambda_dict["lambda1"] * G_L_data + lambda_dict["lambda2"] * G_L_GAN+G_L_VGG+0.2*G_L_confuse#粗网络的loss真的有意义吗?
+    G_loss = lambda_dict["lambda1"] * G_L_data + lambda_dict["lambda2"] * G_L_GAN + G_L_VGG + 0.2*G_L_confuse + lambda_dict["lambda3"] * G_L_edge
 
     if iter_type == "train" and optimizerG is not None:
         G_loss.backward()
